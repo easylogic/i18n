@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin') 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -6,13 +7,13 @@ module.exports = {
     entry: './src/client/index.js',
     output: {
         filename: 'bundle.js',
-        publicPath: '/',
         path: path.join(__dirname, 'dist'),
     },
     devServer: {
-        contentBase: './',
+        contentBase: "dist",
+        overlay: true,
         inline: true,
-        hot: false,
+        hot: true
     },
     devtool: 'source-map',
     resolve: {
@@ -36,6 +37,7 @@ module.exports = {
         ],
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: './src/client/index.html',
             filename: './index.html'

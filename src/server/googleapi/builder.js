@@ -2,7 +2,6 @@
 
 const path = require('path');
 const fs = require('fs-extra');
-const rimraf = require('rimraf');
 const child_process = require('child_process');
 const readline = require('readline');
 const { google } = require('googleapis');
@@ -87,11 +86,6 @@ function syncMessages(auth) {
 }
 
 function main() {
-    // i18n 메시지 초기화
-    rimraf(OUTPUT_MESSAGE_JS_PATH, function() {
-        fs.ensureDirSync(OUTPUT_MESSAGE_JS_PATH);
-    });
-    
     // i18n 메시지 동기화
     fs.readFile(CREDENTIAL_PATH, (err, content) => {
         if (err) return console.error('Error loading client secret file:', err);
