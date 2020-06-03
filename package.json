@@ -4,6 +4,7 @@
   "description": "i18n",
   "main": "src/client/index.js",
   "scripts": {
+    "dev": "node ./src/server/index.js",
     "start": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 8001"
   },
   "author": "Alvin.h, Easylogic",

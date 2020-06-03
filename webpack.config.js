@@ -4,10 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: {
+        app: ['./src/client/index.js',  'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',],
+    },
     output: {
         filename: 'bundle.js',
         path: path.join(__dirname, 'dist'),
+        hotUpdateChunkFilename: '.hot/hot-update.js',
+        hotUpdateMainFilename: '.hot/hot-update.json',        
     },
     devServer: {
         contentBase: "dist",
