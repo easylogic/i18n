@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# 프로젝트 메타데이터 파일
+metadata.json
