@@ -89,13 +89,13 @@ function syncMessages(auth) {
       // cell 업데이트하기
     //   sheets.spreadsheets.values.batchUpdate({
     //     spreadsheetId: SHEET_ID,
-    //     resource: {
-    //         valueInputOption: "RAW",
-    //         data: [{
-    //             range: "Locale!A1",
-    //             values: [[ 'key2' ]]
-    //         }]
-    //     },
+        // resource: {
+        //     valueInputOption: "RAW",
+        //     data: [{
+        //         range: "Locale!A1",
+        //         values: [[ 'key2' ]]
+        //     }]
+        // },
     // }, (err, result) => {
     //     if (err) {
     //         // Handle error
@@ -129,29 +129,29 @@ function syncMessages(auth) {
     //     }
     // });
     
-    sheets.spreadsheets.batchUpdate({
-        spreadsheetId: SHEET_ID,
-        resource: {
-            requests: [
-                {
-                    'updateSheetProperties': {
-                        "properties": {
-                            "title": "My New Title 3",
-                            "sheetId": 321191230 // 기본은 0
-                        },
-                        "fields": "title"
-                    } 
-                }
-            ]
-        },
-    }, (err, response) => {
-        if (err) {
-            // Handle error
-            console.log(err);
-        } else {
+    // sheets.spreadsheets.batchUpdate({
+    //     spreadsheetId: SHEET_ID,
+    //     resource: {
+    //         requests: [
+    //             {
+    //                 'updateSheetProperties': {
+    //                     "properties": {
+    //                         "title": "My New Title 3",
+    //                         "sheetId": 321191230 // 기본은 0
+    //                     },
+    //                     "fields": "title"
+    //                 } 
+    //             }
+    //         ]
+    //     },
+    // }, (err, response) => {
+    //     if (err) {
+    //         // Handle error
+    //         console.log(err);
+    //     } else {
             
-        }
-    });
+    //     }
+    // });
 }
 
 function main() {

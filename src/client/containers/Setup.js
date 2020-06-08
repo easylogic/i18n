@@ -10,9 +10,9 @@ const Setup = () => {
 
     useEffect(() => {
         axios.get("/metadata").then(res => {
-            // setExistMetadata(res.data.sheetId !== "" && res.data.languages.length > 0);
             setSheetId(res.data.sheetId);
             setLanguages(res.data.languages);
+            setExistMetadata(res.data.sheetId !== "" && res.data.languages.length > 0);
         });
     }, []);
 
@@ -24,18 +24,18 @@ const Setup = () => {
                     <div>
                         <SheetIdForm sheetId={sheetId} changeHandler={setSheetId}></SheetIdForm>
                         <LanguagesForm languages={languages} addHandler={setLanguages}></LanguagesForm>
+
+                        <button onClick={() => {
+                            axios.post("/metadata", {
+                                sheetId: sheetId,
+                                languages: languages
+                            }).then(() => {
+                                setExistMetadata(true);
+                            });
+                        }}>Submit</button>
                     </div>
                 ) : <div>next step</div>
             }
-
-            <button onClick={() => {
-                axios.post("/metadata", {
-                    sheetId: sheetId,
-                    languages: languages
-                }).then(() => {
-                    setExistMetadata(true);
-                });
-            }}>Submit</button>
         </div>
     )
 }

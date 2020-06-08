@@ -1,3 +1,5 @@
+const { google } = require('googleapis');
+
 const express = require('express');
 const bodyParser = require('body-parser')
 
@@ -28,28 +30,106 @@ server.use(staticMiddleWare);
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(bodyParser.json());
 
-server.get("/metadata", (req, res) => {
-    const fname = "metadata.json";
-
-    res.setHeader('Content-Type', 'application/json');
-    res.end(
-        JSON.stringify(
-            fs.existsSync(fname) ? fs.readJsonSync(fname) : { sheetId: "", languages: [] },
-            null,
-            4
-        )
-    );
-});
-
-server.post("/metadata", (req, res) => {
-    fs.writeJSON("metadata.json", {
-        sheetId: req.body.sheetId,
-        languages: req.body.languages
-    });
-
-    res.send(null);
-});
-
 server.listen(8080, () => {
-    console.log("Server is Listening : ", `http://localhost:8080`)
+    console.log("Server is Listening : ", `http://localhost:8080`);
+});
+
+function batchUpdates(sheets, sheetId, requests) {
+    return new Promise((resolve, reject) => {
+        sheets.spreadsheets.batchUpdate({
+            spreadsheetId: sheetId,
+            resource: {
+                requests: requests
+            },
+        }, (err, res) => {
+            if (err != null) reject(err);
+            else resolve(res);
+        });
+    });
+}
+
+function valuesBatchUpdate(sheets, sheetId, resource) {
+    return new Promise((resolve, reject) => {
+        sheets.spreadsheets.values.batchUpdate({
+            spreadsheetId: sheetId,
+            resource: resource,
+        }, (err, res) => {
+            if (err != null) reject(err);
+            else resolve(res);
+        });
+    });
+}
+
+require('./googleapi/auth')(auth => {
+    const sheets = google.sheets({ version: 'v4', auth });
+    const fname = "metadata.json";
+    
+    server.post("/metadata", (req, res) => {
+        const metadata = {
+            sheetId: req.body.sheetId,
+            languages: req.body.languages
+        };
+
+        batchUpdates(sheets, metadata.sheetId, [
+            {
+                'updateSheetProperties': {
+                    "properties": {
+                        "title": "Locale",
+                        "sheetId": 0
+                    },
+                    "fields": "title"
+                } 
+            },
+            {
+                'addSheet': {
+                    'properties':{
+                        'title': 'Users'
+                    }
+                } 
+            },
+            {
+                "addProtectedRange": {
+                    "protectedRange": {
+                        "range": {
+                            "sheetId": 0,
+                            "startRowIndex": 0,
+                            "endRowIndex": 1,
+                            "startColumnIndex": 0,
+                            "endColumnIndex": metadata.languages.length + 1,
+                        },
+                        "description": "Protecting columns",
+                        "warningOnly": true
+                    }
+                }   
+            }
+        ]).then(values => {
+            valuesBatchUpdate(sheets, metadata.sheetId, {
+                valueInputOption: "RAW",
+                data: [{
+                    range: "Locale!A1",
+                    values: [[ 'key' ]]
+                }].concat(metadata.languages.map((lang, index) => {
+                    return {
+                        range: `Locale!${String.fromCharCode(66 + index)}1`,
+                        values: [[ lang ]]
+                    }
+                }))
+            }).then(() => {
+                fs.writeJSON(fname, metadata);
+            });
+        });
+
+        res.send(null);
+    });
+    
+    server.get("/metadata", (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(
+            JSON.stringify(
+                fs.existsSync(fname) ? fs.readJsonSync(fname) : { sheetId: "", languages: [] },
+                null,
+                4
+            )
+        );
+    });
 });
