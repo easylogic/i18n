@@ -22,6 +22,10 @@ const webpackHotMiddleware =
         path: '/__webpack_hmr',
     })
 
+// 메타데이터 파일명
+const fname = "metadata.json";
+const ftab = "Locale";
+
 server.use(webpackDevMiddleware);
  // 웹팩dev 미들웨어 다음, static 미들웨어 이전
 server.use(webpackHotMiddleware);
@@ -60,14 +64,40 @@ function valuesBatchUpdate(sheets, sheetId, resource) {
     });
 }
 
+function valuesBatchGet(sheets, sheetId, ranges) {
+    return new Promise((resolve, reject) => {
+        sheets.spreadsheets.values.batchGet({
+            spreadsheetId: sheetId, // 시트 아이디
+            ranges: ranges
+        }, (err, res) => {
+            if (err != null) reject(err);
+            else resolve(res);
+        });
+    });
+}
+
+function readMetadata() {
+    return fs.existsSync(fname) ? fs.readJsonSync(fname) : { sheetId: "", languages: [], startIndex: 2 }
+}
+
+function packLang(keys, values) {
+    return keys.reduce((prev, key, i) => {
+        let value = values[i];
+        if (value == null || value.length == 0)
+            value = [''];
+        prev[key[0]] = value[0];
+        return prev;
+    }, {});
+}
+
 require('./googleapi/auth')(auth => {
     const sheets = google.sheets({ version: 'v4', auth });
-    const fname = "metadata.json";
     
     server.post("/metadata", (req, res) => {
         const metadata = {
             sheetId: req.body.sheetId,
-            languages: req.body.languages
+            languages: req.body.languages,
+            startIndex: 1
         };
 
         batchUpdates(sheets, metadata.sheetId, [
@@ -106,11 +136,11 @@ require('./googleapi/auth')(auth => {
             valuesBatchUpdate(sheets, metadata.sheetId, {
                 valueInputOption: "RAW",
                 data: [{
-                    range: "Locale!A1",
+                    range: `${ftab}!A1`,
                     values: [[ 'key' ]]
                 }].concat(metadata.languages.map((lang, index) => {
                     return {
-                        range: `Locale!${String.fromCharCode(66 + index)}1`,
+                        range: `${ftab}!${String.fromCharCode(66 + index)}1`,
                         values: [[ lang ]]
                     }
                 }))
@@ -126,10 +156,32 @@ require('./googleapi/auth')(auth => {
         res.setHeader('Content-Type', 'application/json');
         res.end(
             JSON.stringify(
-                fs.existsSync(fname) ? fs.readJsonSync(fname) : { sheetId: "", languages: [] },
+                readMetadata(),
                 null,
                 4
             )
         );
+    });
+
+    server.get("/messages", (req, res) => {
+        const metadata = readMetadata();
+        const columns = [ "key", ...metadata.languages ];
+
+        const ranges = columns.map((lang, index) => {
+            const column = String.fromCharCode(65 + index);
+            return `${ftab}!${column}${metadata.startIndex}:${column}`;
+        });
+
+        valuesBatchGet(sheets, metadata.sheetId, ranges).then(output => {
+            const keys = output.data.valueRanges[0].values;
+            const json = {};
+
+            metadata.languages.forEach((lang, index) => {
+                json[lang] = packLang(keys, output.data.valueRanges[index+1].values);
+            }); 
+
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(json, null, 4));
+        });
     });
 });

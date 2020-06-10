@@ -67,24 +67,24 @@ function packLang(keys, values) {
 function syncMessages(auth) {
     const sheets = google.sheets({ version: 'v4', auth });
 
-    // sheets.spreadsheets.values.batchGet({
-    //     spreadsheetId: SHEET_ID, // 시트 아이디
-    //     ranges: ['Locale!A1:A', 'Locale!B1:B', 'Locale!C1:C', 'Locale!D1:D'], // 시트 이름 (키, 한국어, 영어, 일본어)
-    // }, (err, res) => {
-    //     if (err) {
-    //         if(err == 'TypeError: Cannot read property \'replace\' of undefined') {
-    //             return console.error('\'i18n message\' 공유 문서에 필수 값이 입력되지 않았습니다.');
-    //         } else {
-    //             return console.error('The API returned an error: ' + err);
-    //         }
-    //     }
+    sheets.spreadsheets.values.batchGet({
+        spreadsheetId: SHEET_ID, // 시트 아이디
+        ranges: ['Locale!A1:A', 'Locale!B1:B', 'Locale!C1:C', 'Locale!D1:D'], // 시트 이름 (키, 한국어, 영어, 일본어)
+    }, (err, res) => {
+        if (err) {
+            if(err == 'TypeError: Cannot read property \'replace\' of undefined') {
+                return console.error('\'i18n message\' 공유 문서에 필수 값이 입력되지 않았습니다.');
+            } else {
+                return console.error('The API returned an error: ' + err);
+            }
+        }
         
-    //     // TODO: 가져온 데이터를 처리하는 부분
-    //     const keys = res.data.valueRanges[0].values;
-    //     console.log(keys);
-    //     console.log(packLang(keys, res.data.valueRanges[1].values));
-    //     console.log(packLang(keys, res.data.valueRanges[2].values));
-    // });
+        // TODO: 가져온 데이터를 처리하는 부분
+        const keys = res.data.valueRanges[0].values;
+        console.log(keys);
+        console.log(packLang(keys, res.data.valueRanges[1].values));
+        console.log(packLang(keys, res.data.valueRanges[2].values));
+    });
 
       // cell 업데이트하기
     //   sheets.spreadsheets.values.batchUpdate({
