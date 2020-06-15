@@ -1,11 +1,11 @@
-# 설치하기
+# 설치
 
 ```
 npm install
 ```
 
 
-# [인증받기](https://developers.google.com/sheets/api/quickstart/nodejs)
+# [인증](https://developers.google.com/sheets/api/quickstart/nodejs)
 1. Enable the Google Sheets API 버튼 클릭
 2. Desktop app 선택
 3. CREATE 버튼 클릭
