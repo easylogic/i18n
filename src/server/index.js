@@ -173,15 +173,19 @@ require('./googleapi/auth')(auth => {
         });
 
         valuesBatchGet(sheets, metadata.sheetId, ranges).then(output => {
+            const lang = req.query.language;
             const keys = output.data.valueRanges[0].values;
             const json = {};
 
             metadata.languages.forEach((lang, index) => {
                 json[lang] = packLang(keys, output.data.valueRanges[index+1].values);
             }); 
-
+            
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(json, null, 4));
+            if (json[lang]) 
+                res.end(JSON.stringify(json[lang], null, 4));
+            else
+                res.end(JSON.stringify(json, null, 4));
         });
     });
 });
