@@ -4,7 +4,7 @@
   "description": "i18n",
   "main": "src/client/index.js",
   "scripts": {
-    "server": "nodemon --watch src/server ./src/server/index.js",
+    "dev": "nodemon --watch src/server ./src/server/index.js",
     "auth": "node src/server/googleapi/builder.js",
     "start": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 8001"
   },
