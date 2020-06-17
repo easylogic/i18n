@@ -82,8 +82,8 @@ function readMetadata() {
 
 function packLang(keys, values) {
     return keys.reduce((prev, key, i) => {
-        let value = values[i];
-        if (value == null || value.length == 0)
+        let value = !values ? [''] : values[i];
+        if (!value || value.length == 0)
             value = [''];
         prev[key[0]] = value[0];
         return prev;
