@@ -18,9 +18,7 @@ export default function LanguageTable () {
     const values = Object.values(messages) || [];
 
     let table = [
-        [ "key", ...values.map(it => {
-            return it.key
-        })],
+        [ "key", ...values.map(it => it.key)],
     ]
 
     if (values.length) {
@@ -30,9 +28,7 @@ export default function LanguageTable () {
         keys.forEach(key => {
             table.push([
                 key,
-                ...values.map(it => {
-                    return it[key]
-                })
+                ...values.map(it => it[key])
             ])
         })   
     }
@@ -45,17 +41,13 @@ export default function LanguageTable () {
             <table border="1">
             <thead>
                 <tr>
-                {table[0].map(it => {
-                    return <th key={it}>{it}</th>
-                })}
+                {table[0].map(it => <th key={it}>{it}</th>)}
                 </tr>
             </thead>
             <tbody>
                 {table.filter((_, index) => index !== 0).map((it, index) => {
                     return <tr key={index}>
-                        {it.map(name => {
-                            return <td key={name}>{name}</td>
-                        })}
+                        {it.map(name => <td key={name}>{name}</td>)}
                     </tr>
                 })}
             </tbody>
