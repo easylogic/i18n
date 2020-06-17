@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SheetIdForm from "../components/SheetIdForm";
 import LanguagesForm from "../components/LanguagesForm";
+import LanguageTable from "../components/LanguageTable";
 
 const Setup = () => {
     const [existMetadata, setExistMetadata] = useState(false);
@@ -34,7 +35,7 @@ const Setup = () => {
                             });
                         }}>Submit</button>
                     </div>
-                ) : <div>next step</div>
+                ) : <LanguageTable />
             }
         </div>
     )
