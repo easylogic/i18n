@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Setup from './containers/Setup';
 
 export default function App() {
