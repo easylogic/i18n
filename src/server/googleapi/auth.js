@@ -16,10 +16,8 @@ function getNewToken(oAuth2Client, callback) {
         scope: SCOPES,
     });
 
-    if (process.platform == 'darwin')
-        child_process.spawn('open', [authUrl]);
-    else
-        console.info('Authorize this app by visiting this url:', authUrl);
+    if (process.platform == 'darwin') child_process.spawn('open', [authUrl]);
+    else console.info('Authorize this app by visiting this url:', authUrl);
 
     const rl = readline.createInterface({
         input: process.stdin,
@@ -41,8 +39,7 @@ function getNewToken(oAuth2Client, callback) {
 
 function authorize(credentials, callback) {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
-    const oAuth2Client = new google.auth.OAuth2(
-        client_id, client_secret, redirect_uris[0]);
+    const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
     fs.readFile(TOKEN_PATH, (err, token) => {
         if (err) return getNewToken(oAuth2Client, callback);
@@ -51,12 +48,12 @@ function authorize(credentials, callback) {
     });
 }
 
-module.exports = function(callback) {
+module.exports = function (callback) {
     fs.readFile(CREDENTIAL_PATH, (err, content) => {
         if (err) return console.error('Error loading client secret file:', err);
 
         authorize(JSON.parse(content), (auth) => {
             callback(auth);
         });
-    })
-}
+    });
+};
