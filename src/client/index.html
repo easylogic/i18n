@@ -5,6 +5,31 @@
     <title>React SVG Starter</title>
   </head>
   <body>
-    <div id="app"></div>
+      <div id="app"></div>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-auth.js"></script>
+
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3dS6i3ny0W7vOSNBfHH_FGN1mV3I8BO4",
+      authDomain: "i18n-8ba32.firebaseapp.com",
+      databaseURL: "https://i18n-8ba32.firebaseio.com",
+      projectId: "i18n-8ba32",
+      storageBucket: "i18n-8ba32.appspot.com",
+      messagingSenderId: "855824206360",
+      appId: "1:855824206360:web:e378288e5566d1aa7d116d",
+      measurementId: "G-Y3B7Q7QMXV"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>    
   </body>
 </html>

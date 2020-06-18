@@ -178,7 +178,6 @@ require('./googleapi/auth')((auth) => {
             const lang = req.query.language;
             const keys = output.data.valueRanges[0].values;
             const json = {};
-
             metadata.languages.forEach((lang, index) => {
                 json[lang] = packLang(keys, output.data.valueRanges[index + 1].values);
             });
