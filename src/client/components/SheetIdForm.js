@@ -1,11 +1,10 @@
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 
 const SheetIdForm = ({ sheetId, changeHandler }) => {
     return (
         <div className="sheet-id-form">
-            <h3>구글 시트 아이디</h3>
-            <input
-                type="text"
+            <TextField label="구글 문서 ID" required="true" 
                 value={sheetId}
                 onChange={(e) => {
                     changeHandler(e.target.value);
