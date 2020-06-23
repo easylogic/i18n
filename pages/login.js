@@ -1,8 +1,6 @@
-import React from 'react';
-import Setup from './containers/Setup';
+import Setup from '../containers/Setup';
 
 export default function App() {
-
     function doLogin () {
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
