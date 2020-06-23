@@ -12,9 +12,8 @@ export default class MyDocument extends Document {
   render () {
     return (
      <html>
-       <Head>
+       <Head title="i18n">
          <style>{`body { margin: 0 } /* custom! */`}</style>
-         <title>Next.js 연습</title>
        </Head>
        <body>
          <Main />

@@ -12,7 +12,7 @@ const LanguagesForm = ({ languages, addHandler }) => {
                 })}
             </div>
 
-            <TextField label="번역 언어 목록" required="true" 
+            <TextField label="번역 언어 목록" required={true}
                 value={language} 
                 onChange={(e) => setLanguage(e.target.value)}
             />

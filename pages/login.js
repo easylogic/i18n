@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import Setup from '../containers/Setup';
 
 export default function App() {
