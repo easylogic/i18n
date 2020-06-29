@@ -105,3 +105,5 @@ dist
 
 # 프로젝트 메타데이터 파일
 metadata.json
+credentials.json
+token.json
