@@ -1,14 +1,11 @@
-#!/usr/bin/env node
-
-const path = require('path');
 const fs = require('fs-extra');
 const child_process = require('child_process');
 const readline = require('readline');
 const { google } = require('googleapis');
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-const TOKEN_PATH = path.join(__dirname, 'token.json');
-const CREDENTIAL_PATH = path.join(__dirname, 'credentials.json');
+const TOKEN_PATH = './pages/googleapi/token.json';
+const CREDENTIAL_PATH = './pages/googleapi/credentials.json';
 
 function getNewToken(oAuth2Client, callback) {
     const authUrl = oAuth2Client.generateAuthUrl({
@@ -48,7 +45,7 @@ function authorize(credentials, callback) {
     });
 }
 
-module.exports = function (callback) {
+export default function(callback) {
     fs.readFile(CREDENTIAL_PATH, (err, content) => {
         if (err) return console.error('Error loading client secret file:', err);
 
@@ -56,4 +53,4 @@ module.exports = function (callback) {
             callback(auth);
         });
     });
-};
+}

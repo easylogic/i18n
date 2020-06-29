@@ -4,36 +4,25 @@
   "description": "i18n",
   "main": "src/client/index.js",
   "scripts": {
-    "dev": "nodemon --watch src/server ./src/server/index.js",
-    "auth": "node src/server/googleapi/builder.js",
-    "start": "webpack-dev-server --config webpack.config.js --host 0.0.0.0 --port 8001"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "auth": "node src/server/googleapi/builder.js"
   },
   "author": "Alvin.h, Easylogic",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "babel-loader": "^8.1.0",
-    "css-loader": "^3.4.2",
-    "html-webpack-plugin": "^4.0.4",
-    "mini-css-extract-plugin": "^0.9.0",
-    "nodemon": "^2.0.4",
-    "prettier": "2.0.5",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-hot-middleware": "^2.25.0"
+    "prettier": "2.0.5"
   },
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1",
+    "firebase": "^7.15.4",
     "fs-extra": "^9.0.0",
     "googleapis": "^51.0.0",
+    "next": "^9.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }

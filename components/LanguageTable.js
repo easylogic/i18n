@@ -7,7 +7,7 @@ export default function LanguageTable() {
 
     useEffect(() => {
         if (isLoading === false) {
-            axios.get('/messages').then((res) => {
+            axios.get('/api/messages').then((res) => {
                 setLoading(true);
                 setMessages(res.data);
             });

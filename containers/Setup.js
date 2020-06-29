@@ -10,7 +10,7 @@ const Setup = () => {
     const [languages, setLanguages] = useState([]);
 
     useEffect(() => {
-        axios.get('/metadata').then((res) => {
+        axios.get('/api/metadata').then((res) => {
             setSheetId(res.data.sheetId);
             setLanguages(res.data.languages);
             setExistMetadata(res.data.sheetId !== '' && res.data.languages.length > 0);
@@ -27,7 +27,7 @@ const Setup = () => {
                     <button
                         onClick={() => {
                             axios
-                                .post('/metadata', {
+                                .post('/api/metadata', {
                                     sheetId: sheetId,
                                     languages: languages,
                                 })
