@@ -27,7 +27,7 @@ const Setup = () => {
                     <button
                         onClick={() => {
                             axios
-                                .post('/metadata', {
+                                .post('/api/metadata', {
                                     sheetId: sheetId,
                                     languages: languages,
                                 })
