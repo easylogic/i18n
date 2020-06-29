@@ -1,19 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-export default function LanguageTable() {
-    const [isLoading, setLoading] = useState(false);
-    const [messages, setMessages] = useState({});
-
-    useEffect(() => {
-        if (isLoading === false) {
-            axios.get('/api/messages').then((res) => {
-                setLoading(true);
-                setMessages(res.data);
-            });
-        }
-    }, [isLoading]);
-
+export default function LanguageTable({ messages=[] }) {
     const values = Object.values(messages) || [];
 
     let table = [['key', ...values.map((it) => it.key)]];
@@ -28,9 +15,7 @@ export default function LanguageTable() {
         });
     }
 
-    return isLoading === false ? (
-        <React.Fragment></React.Fragment>
-    ) : (
+    return (
         <div>
             <table border="1">
                 <thead>

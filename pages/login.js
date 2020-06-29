@@ -1,8 +1,9 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import Setup from '../containers/Setup';
+import axios from 'axios';
+import Setup from './setup';
 
-export default function App() {
+function App({ sheetId, languages, existMetadata, messages }) {
     function doLogin () {
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -28,7 +29,28 @@ export default function App() {
     return (
         <div>
             <button type="button" onClick={doLogin}>로그인</button>
-            <Setup></Setup>
+
+            <Setup
+                sheetId={sheetId}
+                languages={languages}
+                existMetadata={existMetadata}
+                messages={messages}
+            ></Setup>
         </div>
     );
 }
+
+App.getInitialProps = async ({ req }) => {
+    const res = await axios.get('http://localhost:3000/api/metadata');
+    const existMetadata = res.data.sheetId !== '' && res.data.languages.length > 0;
+    const res2 = existMetadata ? await axios.get('http://localhost:3000/api/messages') : { data: {} };
+  
+    return {
+        sheetId: res.data.sheetId,
+        languages: res.data.languages,
+        existMetadata: existMetadata,
+        messages: res2.data
+    }
+}
+
+export default App;

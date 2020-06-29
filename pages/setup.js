@@ -4,18 +4,10 @@ import SheetIdForm from '../components/SheetIdForm';
 import LanguagesForm from '../components/LanguagesForm';
 import LanguageTable from '../components/LanguageTable';
 
-const Setup = () => {
-    const [existMetadata, setExistMetadata] = useState(false);
-    const [sheetId, setSheetId] = useState('');
-    const [languages, setLanguages] = useState([]);
-
-    useEffect(() => {
-        axios.get('/api/metadata').then((res) => {
-            setSheetId(res.data.sheetId);
-            setLanguages(res.data.languages);
-            setExistMetadata(res.data.sheetId !== '' && res.data.languages.length > 0);
-        });
-    }, []);
+function Setup(props) {
+    const [ sheetId, setSheetId ] = useState(props.sheetId || '');
+    const [ languages, setLanguages ] = useState(props.languages || []);
+    const [ existMetadata, setExistMetadata ] = useState(props.existMetadata || false);
 
     return (
         <div>
@@ -40,7 +32,7 @@ const Setup = () => {
                     </button>
                 </div>
             ) : (
-                <LanguageTable />
+                <LanguageTable messages={props.messages} />
             )}
         </div>
     );
