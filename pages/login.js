@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import axios from 'axios';
 import Setup from './setup';
+import Layout from '../components/Layout';
 
 function App({ sheetId, languages, existMetadata, messages }) {
     function doLogin () {
@@ -27,8 +28,11 @@ function App({ sheetId, languages, existMetadata, messages }) {
           });
     }
     return (
-        <div>
+        <Layout>
+            <br/>
             <button type="button" onClick={doLogin}>로그인</button>
+
+            <br/><br/>
 
             <Setup
                 sheetId={sheetId}
@@ -36,7 +40,7 @@ function App({ sheetId, languages, existMetadata, messages }) {
                 existMetadata={existMetadata}
                 messages={messages}
             ></Setup>
-        </div>
+        </Layout>
     );
 }
 
