@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 import fs from 'fs-extra';
-import googleAuth from '../googleapi/auth';
-import {readMetadata, batchUpdates, valuesBatchUpdate} from '../googleapi/utils';
+import googleAuth from '../../services/google/auth';
+import {readMetadata, batchUpdates, valuesBatchUpdate} from '../../services/utils';
 
-const fname = './pages/googleapi/metadata.json';
+const fname = './services/google/metadata.json';
 const ftab = 'Locale';
 
 export default function handler(req, res) {

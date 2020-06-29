@@ -4,8 +4,8 @@ const readline = require('readline');
 const { google } = require('googleapis');
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-const TOKEN_PATH = './pages/googleapi/token.json';
-const CREDENTIAL_PATH = './pages/googleapi/credentials.json';
+const TOKEN_PATH = './services/google/token.json';
+const CREDENTIAL_PATH = './services/google/credentials.json';
 
 function getNewToken(oAuth2Client, callback) {
     const authUrl = oAuth2Client.generateAuthUrl({

@@ -48,7 +48,7 @@ export const valuesBatchGet = function(sheets, sheetId, ranges) {
 }
 
 export const readMetadata = function() {
-    const fname = './pages/googleapi/metadata.json';
+    const fname = './services/google/metadata.json';
     return fs.existsSync(fname) ? fs.readJsonSync(fname) : { sheetId: '', languages: [], startIndex: 2 };
 }
 

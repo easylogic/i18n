@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
-import googleAuth from '../googleapi/auth';
-import {readMetadata, valuesBatchGet, packLang} from '../googleapi/utils';
+import googleAuth from '../../services/google/auth';
+import {readMetadata, valuesBatchGet, packLang} from '../../services/utils';
 
 const ftab = 'Locale';
 
